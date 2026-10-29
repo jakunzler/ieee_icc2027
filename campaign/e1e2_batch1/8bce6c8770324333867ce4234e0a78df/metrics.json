@@ -1,0 +1,28 @@
+{
+  "attempt": 2,
+  "e1": "PASS",
+  "e2": "PASS",
+  "run_id": "8bce6c8770324333867ce4234e0a78df",
+  "sha256": "3ef9c00927d47cce348882129f49b87e5cf3993ad20578475d2bca6cb83d5296",
+  "accepted": 200,
+  "pci": [
+    1
+  ],
+  "pss_min": 0.7993587657381074,
+  "pss_median": 0.8923126440868274,
+  "pss_max": 0.9178059294652584,
+  "sss_min": 0.9986300900414915,
+  "sss_median": 0.9991917732186896,
+  "sss_max": 0.9995186303743495,
+  "spacing_exact": 170,
+  "spacing_plus": 28,
+  "spacing_minus": 1,
+  "spacing_other": 0,
+  "symbol_power_median": 2.2684560462948866e-05,
+  "symbol_power_min": 2.1140745957382023e-05,
+  "symbol_power_max": 2.770180617517326e-05,
+  "file_mean_power": 9.644715222142016e-06,
+  "predicted_opening_useful": null,
+  "predicted_opening_pss_score": null,
+  "score_check_abs_error": 2.3314683517128287e-15
+}

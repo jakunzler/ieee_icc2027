@@ -1,0 +1,56 @@
+# Bring-up / DEFAULT do lab Tower02:
+#   n78, 100 MHz, 1T1R, fc ≈ 3750 MHz (dl_arfcn 650000)
+# Arquivo padrão: GNB_CONFIG em configs/lab_addrs.env → este YAML.
+# sc16 @ 184.32 MS/s × 1 ch ≈ 5,9 Gb/s (cabe em 1×10GbE com jumbo).
+# Uso: sudo bash scripts/gnb_run.sh
+#      sudo bash scripts/gnb_run.sh configs/gnb_n78_100mhz_1t1r_x310.yml
+
+cu_cp:
+  amf:
+    addr: 127.0.1.100
+    port: 38412
+    bind_addr: 127.0.0.1
+    supported_tracking_areas:
+      - tac: 7
+        plmn_list:
+          - plmn: "00101"
+            tai_slice_support_list:
+              - sst: 1
+
+ru_sdr:
+  device_driver: uhd
+  device_args: type=x300,addr=192.168.40.3,master_clock_rate=184.32e6
+  clock: internal
+  sync: internal
+  srate: 184.32
+  tx_gain: 10
+  rx_gain: 10
+
+cell_cfg:
+  dl_arfcn: 650000
+  band: 78
+  channel_bandwidth_MHz: 100
+  common_scs: 30
+  plmn: "00101"
+  tac: 7
+  pci: 1
+  nof_antennas_dl: 1
+  nof_antennas_ul: 1
+
+log:
+  filename: /tmp/gnb.log
+  all_level: info
+
+pcap:
+  mac_enable: false
+  mac_filename: /tmp/gnb_mac.pcap
+  ngap_enable: false
+  ngap_filename: /tmp/gnb_ngap.pcap
+
+# Tabela DL/UL no stdout (pci rnti cqi …) — lab_session_long_capture.sh
+metrics:
+  autostart_stdout_metrics: true
+  layers:
+    enable_sched: true
+  periodicity:
+    du_report_period: 1000

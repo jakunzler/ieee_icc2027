@@ -1,0 +1,50 @@
+{
+  "campaign_id": "e1e2_batch1",
+  "date_utc": "2026-10-26",
+  "profile": "n78 100 MHz 1T1R TDD, nominal 3750 MHz, SCS 30 kHz",
+  "yaml": "configs/gnb_n78_100mhz_1t1r_x310.yml",
+  "yaml_sha256": "233cb3783be258bc7fbe430309e36169bbea8e2964802fbead1fd5537daab390",
+  "detector": "src/ref_repro/dsp/nr_ssb.py",
+  "detector_sha256": "736ba4492a63315717c7fa2164714df8c87c9e0d9551e045ca1875cfc9793966",
+  "detector_call": {
+    "sample_rate": 184320000,
+    "scs_hz": 30000,
+    "cp": [432, 432, 432, 432],
+    "ssb_offset_hz": -40080000,
+    "pss_threshold": 0.7,
+    "sss_threshold": 0.7,
+    "max_candidates": 32,
+    "scan_window_samples": 2000000,
+    "hop_samples": 1843200,
+    "fft_samples": 6144
+  },
+  "gnb": {
+    "pid": 302635,
+    "start_local": "2026-10-26T10:26:15-03:00",
+    "executable_sha256": "0bb7e96b063be232996679d4c10c374ddc51123d69c273d6c6bbad3f186036b4",
+    "srsran_commit_built_in_release": "d2f4b70dda",
+    "log_inode": 18108070,
+    "pci": 1,
+    "ssb_arfcn_derived": 647328,
+    "ssb_period": "ms10",
+    "ssb_bitmap_inOneGroup": "10000000"
+  },
+  "gates": {
+    "e1_pass": 5,
+    "e1_fail": 0,
+    "e2_eligible": 3,
+    "e2_rejected": 2,
+    "attempts_in_denominator": 5,
+    "ten_run_denominator": 10,
+    "gate_9_of_10": "UNREACHABLE"
+  },
+  "accepted_pss_sss_total": 997,
+  "independence": "997 events nested in five files and one gNB process; not 997 independent trials",
+  "jammer": "not used",
+  "interference_transmitted": false,
+  "negative_control": "not collected",
+  "sigmf": "proposed interoperability layer; historical .c64 files are not claimed to conform",
+  "lab_ledger_after_attempt_5_sha256": "253d203100ce09baad31e3dbddc9eaeac027a4620309548b6688b5f9bfc68361",
+  "lab_ledger_path": "/home/jakunzler/icc2027_caif_pilot/e1e2_batch1/ledger.json",
+  "public_ledger_note": "campaign/e1e2_batch1/ledger.json in this bundle is reconstructed from published hashes and comparison_summary.json. It is not byte-identical to the lab ledger."
+}

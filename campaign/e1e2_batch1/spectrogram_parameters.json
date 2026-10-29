@@ -1,0 +1,13 @@
+{
+  "iq": "/home/jakunzler/icc2027_caif_pilot/nvme_e1e2_batch1/casoA_20261026_170434_8e04773dedd340dba84890a01269509b.c64",
+  "iq_bytes": 2949120000,
+  "slice_start_sample": 1700000,
+  "slice_len_samples": 3686400,
+  "nfft": 4096,
+  "hop": 1024,
+  "window": "hann",
+  "reference": "median power of this slice",
+  "ssb_hz_configured": 3709920000.0,
+  "center_hz": 3750000000.0,
+  "fs_hz": 184320000.0
+}
