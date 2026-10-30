@@ -1,7 +1,6 @@
 # Software and hardware versions
 
-Values below were read on the CERISE/UFG hosts during the 2026-10-26
-E1–E2 batch. Fields not measured are marked `NOT_RECORDED`.
+Values below were read on the CERISE/UFG hosts during the 2026-10-26 E1–E2 batch. Fields not measured are marked `NOT_RECORDED`.
 
 ## Hosts
 

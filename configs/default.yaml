@@ -7,85 +7,85 @@ experiment:
   seed: 42
 
 radio:
-  # Rede 5G NR (banda n78) — gNB Tower02: dl_arfcn 650000 ≈ 3750 MHz, 100 MHz, SCS 30, MIMO 2×2
+  # 5G NR (band n78) — gNB Tower02: dl_arfcn 650000 ≈ 3750 MHz, 100 MHz, SCS 30, MIMO 2×2
   # IPs/interfaces: configs/lab_addrs.env | YAML: configs/gnb_n78_100mhz_x310.yml
   fc_hz: 3.750e9
   nr_bw_hz: 100e6
   scs_hz: 30e3
-  # Jammer SSB (X410 172.16.2.241) — f_SSB do gNB (ARFCN≈647328) = 3709,92 MHz
+  # Jammer SSB (X410 172.16.2.241) — f_SSB of gNB (ARFCN≈647328) = 3709,92 MHz
   f_ssb_hz: 3.70992e9
   jammer_bw_hz: 7.2e6
   jammer_power_dbm: 10.0
   # Watchdog (outra WS)
-  capture_bw_hz: 120e6          # faixa RF alvo: 3.69–3.81 GHz
-  # Taxa efetiva das features ML após decimação (f_hi−f_lo). Captura X310: 200e6.
+  capture_bw_hz: 120e6          # target RF range: 3.69–3.81 GHz
+  # Effective rate of ML features after decimation (f_hi−f_lo). Capture X310: 200e6.
   fs_hz: 120e6
   mimo: "2x2"
 
 spectrogram:
-  n_fft: 1024                 # m = 1024 → ~117 kHz @ fs=120 MHz (escala com fs)
-  n_psd: 100                  # n = 100 PSDs → ~0.8 ms @ fs do artigo
-  hop: 1024                   # FFT simples sem overlap (como no artigo; Welch NÃO)
+  n_fft: 1024                 # m = 1024 → ~117 kHz @ fs=120 MHz (scale with fs)
+  n_psd: 100                  # n = 100 PSDs → ~0.8 ms @ fs of article
+  hop: 1024                   # FFT simple without overlap (like in article; Welch NOT)
   eps: 1.0e-21                # f(x) = -log(x + eps)
   dtype: float32
-  # Nunca usar PNG como entrada de ML — apenas .npy float
+  # Never use PNG as ML input — only .npy float
 
 dataset:
-  # Casos A/B → label 0 (legítimo); Caso C → label 1 (ataque)
+  # Cases A/B → label 0 (legitimate); Case C → label 1 (attack)
   case_to_label:
     A: 0
     B: 0
     C: 1
-  # Contagens absolutas (artigo / protocolo lab). Se definidas, ignoram as razões.
-  n_train: 6000              # 3000 legítimo + 3000 ataque (com balance)
+  # Absolute counts (article / lab protocol). If defined, ignore cases.
+  n_train: 6000              # 3000 legitimate + 3000 attack (with balance)
   n_val: 3000                # 1500 + 1500
   n_test: 1200               # 600 + 600
-  # Frações (só se n_train/n_val/n_test forem null)
+  # Fractions (only if n_train/n_val/n_test are null)
   train_ratio: 0.70
   val_ratio: 0.15
   test_ratio: 0.15
   balance_classes: true
-  # Dentro do label 0, reparte A e B igualmente (evita dataset só com A+C)
+  # Within label 0, split A and B equally (avoid dataset only with A+C)
   stratify_cases: true
-  # Se true e sem contagens absolutas: divide por arquivo de captura
+  # If true and no absolute counts: split by capture file
   split_by_file: true
 
-# Análise multiclasse (notebook 02): cada caso é uma classe — dirs separados do binário
+# Multiclass analysis (notebook 02): each case is a class — separate binary dirs
 dataset_multiclass:
   case_to_label:
     A: 0   # idle
-    B: 1   # tráfego
+    B: 1   # traffic
     C: 2   # jammer
   label_names:
     0: A
     1: B
     2: C
   n_classes: 3
-  # Totais divisíveis por 3 → 2000/1000/400 por caso em train/val/test
+  # Total divisible by 3 → 2000/1000/400 per case in train/val/test
   n_train: 6000
   n_val: 3000
   n_test: 1200
 
 paths:
-  raw_iq: data/raw                  # ML: train|val|test/caso{A,B,C}/  |  Fig.1: fig1/
+  raw_iq: data/raw                  # ML: train|val|test/case{A,B,C}/  |  Fig.1: fig1/
   spectrograms: data/spectrograms   # features ML (.npy 100×1024)
-  datasets: data/datasets           # binário A+B vs C
+  datasets: data/datasets           # binary A+B vs C
   datasets_multiclass: data/datasets_multiclass  # 3 classes A/B/C
   models: data/models
   models_multiclass: data/models_multiclass
-  models_extra: data/models_extra                      # DT/RF/XGB/… binário
+  models_extra: data/models_extra                      # DT/RF/XGB/… binary
   models_multiclass_extra: data/models_multiclass_extra
-  figures: data/figures             # métricas / legado
+  figures: data/figures             # metrics / legacy
   figures_multiclass: data/figures/multiclass
   figures_extra: data/figures/extra
   figures_multiclass_extra: data/figures/multiclass_extra
-  figures_ml: data/figures/ml       # previews diagnósticos ML (casoA/B/C)
-  figures_fig1: data/figures/fig1   # reprodução Fig. 1 (eixos GHz × s)
+  figures_ml: data/figures/ml       # previews diagnostic ML (caseA/B/C)
+  figures_fig1: data/figures/fig1   # reproduction Fig. 1 (GHz × s axes)
   figures_online: data/figures/online  # monitor notebook 05 (casoA/B/C)
-  online_reports: data/online/reports  # relatórios .md/.json do notebook 05
+  online_reports: data/online/reports  # reports .md/.json of notebook 05
 
 cnn:
-  # Arquitetura Table I do artigo (keras/torch equivalente)
+  # Architecture Table I of article (keras/torch equivalent)
   epochs: 50
   batch_size: 32
   learning_rate: 1.0e-3
@@ -94,19 +94,19 @@ cnn:
   use_gpu: true
 
 knn:
-  n_neighbors: 1              # artigo reporta melhor ~99.98% com k=1 + PCA
-  pca_components: 8           # ~98% variância
-  use_pca: true               # false → StandardScaler na PSD média (1024-D)
+  n_neighbors: 1              # article reports better ~99.98% with k=1 + PCA
+  pca_components: 8           # ~98% variance
+  use_pca: true               # false → StandardScaler on mean PSD (1024-D)
   metric: euclidean
 
 svm:
-  kernel: rbf                 # linear | poly | rbf
+  kernel: rbf                 # linear | poly | rbf (article)
   pca_components: 8
   C: 1.0
   gamma: scale
-  degree: 3                   # só para poly
+  degree: 3                   # only for polynomial
 
-# Métodos adicionais (notebooks 03/04) — mesma entrada PSD média + scaler/PCA
+# Additional methods (notebooks 03/04) — same mean PSD input + scaler/PCA
 extra_ml:
   use_pca: true
   pca_components: 8
@@ -148,94 +148,94 @@ extra_ml:
     hidden_layer_sizes: [128, 64]
     max_iter: 200
   kmeans:
-    # null → usa n_classes da tarefa (2 binário / 3 multiclasse)
+    # null → use n_classes of task (2 binary / 3 multiclass)
     n_clusters: null
 
 latency:
-  # Medição só do classificador (exclui FFT/espectrograma), CPU, sem GPU
+  # Measurement only of classifier (excludes FFT/spectrogram), CPU, no GPU
   n_warmup: 20
   n_repeat: 500
   percentile: 95
 
-# Detecção online (scripts/08_online_detect.py) — binário LEGITIMO vs ATAQUE
-# Pré-requisito operacional: gNB UP. Sem rede, o espectro é OOD e p≈0.5.
+# Online detection (scripts/08_online_detect.py) — binary LEGITIMO vs ATAQUE
+# Operational prerequisite: gNB UP. Without network, the spectrum is OOD and p≈0.5.
 online:
-  model: svm                    # svm | knn | cnn  (artefatos em data/models/)
-  # Zona cinza: threshold_legit < p < threshold_attack → INDETERMINADO
-  threshold_attack: 0.85        # p ≥ isto → ATAQUE (alta confiança)
-  threshold_legit: 0.15         # p ≤ isto → LEGITIMO
-  vote_window: 5                # histórico de decisões
-  min_vote_attack: 5            # alarme só com N votos ATAQUE (default = unânime)
-  # label = maioria de rótulos duros | prob = limiar sobre a média de p na janela
-  # (prob evita colapsar em INDETERMINADO quando p oscila na zona cinza)
+  model: svm                    # svm | knn | cnn  (artifacts in data/models/)
+  # Grey zone: threshold_legit < p < threshold_attack → INDETERMINATE
+  threshold_attack: 0.85        # p ≥ this → ATTACK (high confidence)
+  threshold_legit: 0.15         # p ≤ this → LEGITIMO
+  vote_window: 5                # decision history
+  min_vote_attack: 5            # alarm only with N attack votes (default = unanimous)
+  # label = majority of hard labels | prob = threshold on mean p in window
+  # (prob avoids collapsing to INDETERMINATE when p oscillates in grey zone)
   vote_mode: label
-  # Limiares calibrados: python3 scripts/09_calibrate_thresholds.py --model svm --write
-  min_psd_std: 0.35             # std(PSD média -log) abaixo → INDETERMINADO (ruído plano)
+  # Calibrated thresholds: python3 scripts/09_calibrate_thresholds.py --model svm --write
+  min_psd_std: 0.35             # std(mean PSD -log) below → INDETERMINATE (flat noise) (article)
   log_jsonl: data/online/detections.jsonl
-  reports_dir: data/online/reports   # notebook 05: caso{A,B,C}/{stamp}_*.md
-  figures_dir: data/figures/online   # notebook 05: caso{A,B,C}/{stamp}_*.png
-  replay_max_windows: null      # null = todas as janelas do .c64
+  reports_dir: data/online/reports   # notebook 05: case{A,B,C}/{stamp}_*.md
+  figures_dir: data/figures/online   # notebook 05: case{A,B,C}/{stamp}_*.png
+  replay_max_windows: null      # null = all windows of .c64
 
 viz:
   dpi: 200
   cmap: viridis
-  save_preview_png: true      # preview ML: Frequency [GHz] × Time [s]
+  save_preview_png: true      # preview ML: Frequency [GHz] × Time [s] (article)
 
 # ---------------------------------------------------------------------------
-# Fluxo ML — coleta casos A/B/C (espectrogramas 100×1024) — INDEPENDENTE da Fig.1
+# ML flow — collect cases A/B/C (spectrograms 100×1024) — INDEPENDENT of Fig.1
 # Scripts: ml_capture_case.sh / ml_collect_session.sh / ml_build_spectrograms.sh
 # ---------------------------------------------------------------------------
 ml_capture:
-  # A = idle (jammer OFF); B = tráfego (jammer OFF); C = jammer ON @ G0
+  # A = idle (jammer OFF); B = traffic (jammer OFF); C = jammer ON @ G0
   cases: [A, B, C]
   splits: [train, val, test]
-  # X310: 120e6 inválido. Opções ≥120 MHz de RF:
-  #   200e6 (MCR 200) ou 184.32e6 (MCR 184.32 — exige master_clock_rate no UHD).
-  # Build decima para 3.69–3.81 GHz (120 MHz). ~29–32 GB / 20 s.
+  # X310: 120e6 invalid. Options ≥120 MHz of RF:
+  #   200e6 (MCR 200) or 184.32e6 (MCR 184.32 — requires master_clock_rate in UHD).
+  # Build decimation for 3.69–3.81 GHz (120 MHz). ~29–32 GB / 20 s.
   capture_fs_hz: 184.32e6
   master_clock_rate: 184.32e6
   f_lim_ghz: [3.69, 3.81]
   capture_seconds: 20.0
-  capture_gain: 20             # RX dB — mesmo default pós-sweep Fig.1
+  capture_gain: 20             # RX dB — same default post-sweep Fig.1
   addr: "192.168.40.2"
-  # Isolamento host durante captura (ModemManager NÃO é parado)
+  # Isolation during capture (ModemManager NOT stopped)
   isolate: true
-  # Após cada captura, gerar .npy 100×1024 (01_build_spectrograms)
+  # After each capture, generate .npy 100×1024 (01_build_spectrograms)
   build_spectrograms: true
-  max_spectrograms_per_file: null   # null = todas as janelas do .c64
-  # PNGs de inspeção (primeiro/meio/último) em data/figures/ml/caso{X}/
+  max_spectrograms_per_file: null   # null = all windows of .c64
+  # Inspection PNGs (first/middle/last) in data/figures/ml/case{X}/
   ensure_preview_png: true
   n_preview_png: 3
-  min_preview_png: 1                # falha se menos que isto após ensure
-  # Espectrograma completo da captura (~20 s) no mesmo dir ml/caso{X}/
-  # (estilo Fig.1; não é feature ML). Script: ml_plot_full_captures.py
+  min_preview_png: 1                # fail if less than this after ensure
+  # Full spectrogram of capture (~20 s) in same dir ml/case{X}/
+  # (like Fig.1; not ML feature). Script: ml_plot_full_captures.py
   ensure_full_capture_png: true
-  # Escala de cor fixa (log10 PSD) para A/B/C comparáveis. null → percentis Fig.1
+  # Fixed color scale (log10 PSD) for comparable A/B/C. null → percentiles Fig.1
   full_capture_clim: [-7.5, 0.0]
-  # Checklist impresso no script (operador confirma na Tower02)
+  # Checklist printed in script (operator confirms on Tower02)
   prerequisites:
-    A: "gNB UP; jammer OFF; UE idle / sem iperf"
-    B: "gNB UP; jammer OFF; iperf/tráfego contínuo UE↔gNB"
-    C: "gNB UP; jammer ON @ G0; tráfego deve falhar"
+    A: "gNB UP; jammer OFF; UE idle / no iperf"
+    B: "gNB UP; jammer OFF; iperf/continuous traffic UE↔gNB"
+    C: "gNB UP; jammer ON @ G0; traffic should fail"
 
-# Reprodução da Fig. 1 do artigo — fluxo SEPARADO (não misturar paths/scripts)
-# X310 (Tower03): 120e6 inválido; use 200e6 (MCR 200) ou 184.32e6 (MCR 184.32)
+# Reproduction of Fig. 1 of article — separate flow (do not mix paths/scripts)
+# X310 (Tower03): 120e6 invalid; use 200e6 (MCR 200) or 184.32e6 (MCR 184.32)
 fig1:
   title: null
   n_fft: 1024
-  n_time_bins: 800             # resolução temporal da figura (não da feature ML)
-  f_lim_ghz: [3.69, 3.81]      # eixo X do artigo (120 MHz em torno de 3.75 GHz)
-  t_lim_s: [0.0, 20.0]         # eixo Y do artigo
-  freq_axis: article           # article = f_lim fixo; physical = fc±fs/2
+  n_time_bins: 800             # temporal resolution of figure (not ML feature)
+  f_lim_ghz: [3.69, 3.81]      # article X axis (120 MHz around 3.75 GHz)
+  t_lim_s: [0.0, 20.0]         # article Y axis
+  freq_axis: article           # article = fixed f_lim; physical = fc±fs/2
   cmap: turbo
-  scale_mode: log10            # log10 | db | neglog — distinto de -log(x+ε) do ML
+  scale_mode: log10            # log10 | db | neglog — distinct from -log(x+ε) of ML
   dpi: 200
-  # Escala de cor fixa (log10 PSD): frio=-7.5, quente=0. null → usa percentis
+  # Fixed color scale (log10 PSD): cold=-7.5, hot=0. null → use percentiles
   clim: [-7.5, 0.0]
-  clim_percentiles: [5, 99]    # só se clim for null
-  notch_dc: false               # remove linha LO/DC em fc (só visualização Fig.1)
-  # Captura ≥120 MHz de RF:
+  clim_percentiles: [5, 99]    # only if clim is null
+  notch_dc: false               # remove LO/DC line in fc (only visual Fig.1)
+  # Capture ≥120 MHz of RF:
   capture_fs_hz: 184.32e6
   master_clock_rate: 184.32e6
   capture_seconds: 20.0
-  capture_gain: 20             # RX dB — faixa HW 0–37.5; default lab pós-sweep
+  capture_gain: 20             # RX dB — HW range 0–37.5; default lab post-sweep

@@ -1,8 +1,8 @@
-# Bring-up / DEFAULT do lab Tower02:
+# Bring-up / DEFAULT of lab Tower02:
 #   n78, 100 MHz, 1T1R, fc ≈ 3750 MHz (dl_arfcn 650000)
-# Arquivo padrão: GNB_CONFIG em configs/lab_addrs.env → este YAML.
-# sc16 @ 184.32 MS/s × 1 ch ≈ 5,9 Gb/s (cabe em 1×10GbE com jumbo).
-# Uso: sudo bash scripts/gnb_run.sh
+# Default file: GNB_CONFIG in configs/lab_addrs.env → this YAML.
+# sc16 @ 184.32 MS/s × 1 ch ≈ 5,9 Gb/s (fits in 1×10GbE with jumbo).
+# Usage: sudo bash scripts/gnb_run.sh
 #      sudo bash scripts/gnb_run.sh configs/gnb_n78_100mhz_1t1r_x310.yml
 
 cu_cp:
@@ -47,7 +47,7 @@ pcap:
   ngap_enable: false
   ngap_filename: /tmp/gnb_ngap.pcap
 
-# Tabela DL/UL no stdout (pci rnti cqi …) — lab_session_long_capture.sh
+# DL/UL table on stdout (pci rnti cqi …) — lab_session_long_capture.sh
 metrics:
   autostart_stdout_metrics: true
   layers:
